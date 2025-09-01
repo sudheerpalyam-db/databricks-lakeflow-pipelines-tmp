@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional
 
 # Add the source directory to the path
-source_dir = "/Users/sudheer.palyam/workspace/databricks/databricks-lakeflow-pipelines-init/dlt_migration_tool/src"
+source_dir = "/Users/sudheer.palyam/workspace/databricks/databricks-lakeflow-pipelines-tmp/dlt_migration_tool/src"
 if source_dir not in sys.path:
     sys.path.append(source_dir)
 

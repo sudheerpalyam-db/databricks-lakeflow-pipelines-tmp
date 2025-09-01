@@ -8,7 +8,8 @@ from pathlib import Path
 from typing import Dict, Any, Optional, List, Callable, Union
 from abc import ABC, abstractmethod
 
-from ..utils.json_utils import JsonUtils
+# Use absolute imports instead of relative imports
+from dlt_migration_tool.utils.json_utils import JsonUtils
 
 logger = logging.getLogger(__name__)
 

@@ -7,9 +7,10 @@ import os
 from pathlib import Path
 from typing import Dict, Any, Optional, List, Union, Tuple
 
-from ..mapping.mapping_engine import MappingEngine, MappingProvider
-from ..utils.json_utils import JsonUtils
-from ..utils.file_utils import FileUtils
+# Use absolute imports instead of relative imports
+from dlt_migration_tool.mapping.mapping_engine import MappingEngine, MappingProvider
+from dlt_migration_tool.utils.json_utils import JsonUtils
+from dlt_migration_tool.utils.file_utils import FileUtils
 
 logger = logging.getLogger(__name__)
 

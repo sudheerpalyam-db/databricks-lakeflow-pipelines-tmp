@@ -536,11 +536,11 @@ class MappingEngine:
                 # Update sequence_by to ensure it's wrapped in timestamp() function
                 if "cdcSettings" in target_config and "sequence_by" in target_config["cdcSettings"]:
                     seq_by_value = target_config["cdcSettings"]["sequence_by"]
-                    if seq_by_value == "DMS_CDC_TIMESTAMP":
-                        target_config["cdcSettings"]["sequence_by"] = "timestamp(DMS_CDC_TIMESTAMP)"
-                    elif not seq_by_value.startswith("timestamp("):
-                        # If it's not already wrapped in timestamp(), wrap it
-                        target_config["cdcSettings"]["sequence_by"] = f"timestamp({seq_by_value})"
+                    # Always use timestamp(DMS_CDC_TIMESTAMP) for Maximo
+                    target_config["cdcSettings"]["sequence_by"] = "timestamp(DMS_CDC_TIMESTAMP)"
+                elif "cdcSettings" in target_config and "sequence_by" not in target_config["cdcSettings"]:
+                    # Add sequence_by if it's missing
+                    target_config["cdcSettings"]["sequence_by"] = "timestamp(DMS_CDC_TIMESTAMP)"
             
             # Skip generating silver config if silver_table is N/A
             if "targetDetails" in target_config and "table" in target_config["targetDetails"]:

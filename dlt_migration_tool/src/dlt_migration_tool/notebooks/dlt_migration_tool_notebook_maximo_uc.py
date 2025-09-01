@@ -30,6 +30,43 @@
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC ## Ensure Module Path
+# MAGIC 
+# MAGIC This will ensure the module path is correctly set up.
+
+# COMMAND ----------
+
+import sys
+import os
+import json
+import datetime
+import tempfile
+import shutil
+import uuid
+from pathlib import Path
+
+# Add the parent directory to the Python path using os.getcwd() instead of __file__
+current_dir = os.getcwd()
+# Go up two levels from notebooks directory to reach the src directory
+module_path = os.path.abspath(os.path.join(current_dir, "../.."))
+if module_path not in sys.path:
+    sys.path.append(module_path)
+    print(f"Added module path: {module_path}")
+
+# Try to import again to verify
+try:
+    from dlt_migration_tool.core.transformer import MigrationProcessor
+    from dlt_migration_tool.audit import AuditFramework
+    from dlt_migration_tool.utils.schema_validator import SchemaValidator
+    print("Successfully imported required modules")
+except ImportError as e:
+    print(f"Import error after path modification: {e}")
+    print(f"Current sys.path: {sys.path}")
+    raise
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC ## Configuration
 # MAGIC 
 # MAGIC Set up configuration parameters for the migration tool.

@@ -1,0 +1,40 @@
+{
+    "dataFlowType": "standard",
+    "mode": "stream",
+    "targetFormat": "delta",
+    "sourceDetails": {
+        "database": "Oracle",
+        "table": "inventory",
+        "path": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/INVENTORY",
+        "readerOptions": {
+            "cloudFiles.format": "parquet",
+            "cloudFiles.inferColumnTypes": "true",
+            "cloudFiles.rescuedDataColumn": "_rescued_data",
+            "header": "true"
+        }
+    },
+    "targetDetails": {
+        "table": "inventory",
+        "path": "Ignore",
+        "tableProperties": {
+            "delta.enableChangeDataFeed": "true"
+        },
+        "schemaPath": "inventory_schema.json"
+    },
+    "dataFlowId": "maximo_inventory",
+    "dataFlowGroup": "silver_maximo",
+    "sourceSystem": "maximo",
+    "sourceType": "cloudFiles",
+    "cdcApplyChanges": {
+        "keys": [
+            "INVENTORYID"
+        ],
+        "sequence_by": "DMS_CDC_TIMESTAMP",
+        "scd_type": "2",
+        "except_column_list": [
+            "DMS_CDC_TIMESTAMP",
+            "_rescued_data"
+        ]
+    },
+    "sourceViewName": "v_inventory"
+}

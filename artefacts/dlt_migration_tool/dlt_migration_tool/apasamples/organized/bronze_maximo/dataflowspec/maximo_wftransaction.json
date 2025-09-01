@@ -1,0 +1,38 @@
+{
+    "dataFlowType": "standard",
+    "mode": "stream",
+    "targetFormat": "delta",
+    "sourceDetails": {
+        "database": "Oracle",
+        "table": "wftransaction",
+        "path": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/WFTRANSACTION",
+        "readerOptions": {
+            "cloudFiles.format": "parquet",
+            "cloudFiles.inferColumnTypes": "true",
+            "cloudFiles.rescuedDataColumn": "_rescued_data",
+            "header": "true"
+        }
+    },
+    "targetDetails": {
+        "table": "wftransaction",
+        "path": "Ignore",
+        "tableProperties": {
+            "delta.enableChangeDataFeed": "true"
+        },
+        "schemaPath": "wftransaction_schema.json"
+    },
+    "dataFlowId": "maximo_wftransaction",
+    "dataFlowGroup": "maximo_bronze",
+    "sourceSystem": "maximo",
+    "sourceType": "cloudFiles",
+    "cdcApplyChanges": {
+        "keys": [
+            "N/A"
+        ],
+        "scd_type": "2",
+        "except_column_list": [
+            "N/A"
+        ]
+    },
+    "sourceViewName": "v_wftransaction"
+}

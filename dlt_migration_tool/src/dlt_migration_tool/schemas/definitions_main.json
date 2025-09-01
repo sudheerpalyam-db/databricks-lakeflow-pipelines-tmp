@@ -1,0 +1,143 @@
+{
+    "title": "Standard DataflowSpec Definitions",
+    "definitions": {
+        "cdcSettings": {
+            "type": "object",
+            "properties": {
+                "keys": {"type": "array", "items": {"type": "string"}},
+                "sequence_by": {"type": "string"},
+                "apply_as_deletes": {"type": "string"},
+                "where": {"type": "string"},
+                "ignore_null_updates": {"type": "boolean"},
+                "except_column_list": {"type": "array", "items": {"type": "string"}},
+                "scd_type": {"type": "string"},
+                "track_history_column_list": {"type": "array", "items": {"type": "string"}},
+                "track_history_except_column_list": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false,
+            "required": ["keys", "sequence_by", "scd_type"]
+        },
+        "cdcSnapshotSettings": {
+            "type": "object",
+            "properties": {
+                "keys": {"type": "array", "items": {"type": "string"}},
+                "scd_type": {"type": "string"},
+                "snapshotType": {"type": "string", "enum": ["historical", "periodic"]},
+                "sourceType": {"type": "string", "enum": ["file", "table"]},
+                "source": {"type": "object"},
+                "track_history_column_list": {"type": "array", "items": {"type": "string"}},
+                "track_history_except_column_list": {"type": "array", "items": {"type": "string"}}
+            },
+            "required": ["keys", "scd_type", "snapshotType"],
+            "dependentSchemas": {
+                "snapshotType": {
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "snapshotType": { "const": "historical" },
+                                "sourceType": { "const": "file" },
+                                "source": { "$ref": "./definitions_main.json#/definitions/historicalSnapshotFileSource" }
+                            },
+                            "required": ["sourceType", "source"]
+                        },
+                        {
+                            "properties": {
+                                "snapshotType": { "const": "historical" },
+                                "sourceType": { "const": "table" },
+                                "source": { "$ref": "./definitions_main.json#/definitions/historicalSnapshotTableSource" }
+                            },
+                            "required": ["sourceType", "source"]
+                        },
+                        {
+                            "properties": {
+                                "snapshotType": { "const": "periodic" },
+                                "source": { "$ref": "./definitions_main.json#/definitions/periodicSnapshotFileSource" }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "historicalSnapshotFileSource": {
+            "type": "object",
+            "properties": {
+                "format": {"type": "string"},
+                "path": {"type": "string"},
+                "readerOptions": {"type": "object"},
+                "filter": {"type": "string"},
+                "versionType": {"type": "string", "enum": ["integer", "timestamp"]},
+                "startingVersion": {"type": ["string", "integer"]}
+            },
+            "required": ["format", "path", "versionType"],
+            "dependentSchemas": {
+                "versionType": {
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "versionType": {"const": "datetime"},
+                                "datetimeFormat": {"type": "string"},
+                                "startingVersion": {"type": "string"}
+                            },
+                            "required": ["datetimeFormat"]
+                        },
+                        {
+                            "properties": {
+                                "versionType": {"const": "int"},
+                                "startingVersion": {"type": "integer"}
+                            },
+                            "not": {
+                                "required": ["datetimeFormat"]
+                            }
+                        }
+                    ]
+                }
+            },
+            "additionalProperties": false
+        },
+        "historicalSnapshotTableSource": {
+            "type": "object",
+            "properties": {
+                "table": {"type": "string"},
+                "versionColumn": {"type": "string"},
+                "versionType": {"type": "string", "enum": ["date", "timestamp", "integer", "long"]},
+                "startingVersion": {"type": ["string", "integer"]}
+            },
+            "required": ["table", "versionColumn", "versionType"],
+            "additionalProperties": false
+        },
+        "tableMigrationDetails": {
+            "type": "object",
+            "properties": {
+                "enabled": {"type": "boolean"},
+                "catalogType": {"type": "string", "enum": ["hms", "uc"]},
+                "sourceDetails": {"$ref": "./definitions_sources.json#/source/sourceMigrateDelta"}
+            },
+            "required": ["enabled", "catalogType", "sourceDetails"],
+            "additionalProperties": false
+        },
+        "quarantineTargetDetails": {
+            "type": "object",
+            "properties": {
+                "targetFormat": {"type": "string", "enum": ["delta"], "default": "delta"}
+            },
+            "required": ["targetFormat"],
+            "dependentSchemas": {
+                "targetFormat": {
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "targetFormat": { "const": "delta" },
+                                "table": {"type": "string"},
+                                "database": {"type": "string"},
+                                "tableProperties": {"type":"object"},
+                                "path": {"type": "string"}
+
+                            },
+                            "additionalProperties": false
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

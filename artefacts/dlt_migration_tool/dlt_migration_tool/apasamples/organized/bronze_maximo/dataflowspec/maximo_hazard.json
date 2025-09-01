@@ -1,0 +1,38 @@
+{
+    "dataFlowType": "standard",
+    "mode": "stream",
+    "targetFormat": "delta",
+    "sourceDetails": {
+        "database": "Oracle",
+        "table": "hazard",
+        "path": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/HAZARD",
+        "readerOptions": {
+            "cloudFiles.format": "parquet",
+            "cloudFiles.inferColumnTypes": "true",
+            "cloudFiles.rescuedDataColumn": "_rescued_data",
+            "header": "true"
+        }
+    },
+    "targetDetails": {
+        "table": "hazard",
+        "path": "Ignore",
+        "tableProperties": {
+            "delta.enableChangeDataFeed": "true"
+        },
+        "schemaPath": "hazard_schema.json"
+    },
+    "dataFlowId": "maximo_hazard",
+    "dataFlowGroup": "maximo_bronze",
+    "sourceSystem": "maximo",
+    "sourceType": "cloudFiles",
+    "cdcApplyChanges": {
+        "keys": [
+            "N/A"
+        ],
+        "scd_type": "2",
+        "except_column_list": [
+            "N/A"
+        ]
+    },
+    "sourceViewName": "v_hazard"
+}

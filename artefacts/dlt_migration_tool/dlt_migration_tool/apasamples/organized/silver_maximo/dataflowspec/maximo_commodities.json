@@ -1,0 +1,40 @@
+{
+    "dataFlowType": "standard",
+    "mode": "stream",
+    "targetFormat": "delta",
+    "sourceDetails": {
+        "database": "Oracle",
+        "table": "commodities",
+        "path": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/COMMODITIES",
+        "readerOptions": {
+            "cloudFiles.format": "parquet",
+            "cloudFiles.inferColumnTypes": "true",
+            "cloudFiles.rescuedDataColumn": "_rescued_data",
+            "header": "true"
+        }
+    },
+    "targetDetails": {
+        "table": "commodities",
+        "path": "Ignore",
+        "tableProperties": {
+            "delta.enableChangeDataFeed": "true"
+        },
+        "schemaPath": "commodities_schema.json"
+    },
+    "dataFlowId": "maximo_commodities",
+    "dataFlowGroup": "silver_maximo",
+    "sourceSystem": "maximo",
+    "sourceType": "cloudFiles",
+    "cdcApplyChanges": {
+        "keys": [
+            "COMMODITY",
+            "ITEMSETID"
+        ],
+        "sequence_by": "DMS_CDC_TIMESTAMP",
+        "scd_type": "2",
+        "except_column_list": [
+            "DMS_CDC_TIMESTAMP"
+        ]
+    },
+    "sourceViewName": "v_commodities"
+}

@@ -1,0 +1,38 @@
+{
+    "dataFlowType": "standard",
+    "mode": "stream",
+    "targetFormat": "delta",
+    "sourceDetails": {
+        "database": "Oracle",
+        "table": "classstructure",
+        "path": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/CLASSSTRUCTURE",
+        "readerOptions": {
+            "cloudFiles.format": "parquet",
+            "cloudFiles.inferColumnTypes": "true",
+            "cloudFiles.rescuedDataColumn": "_rescued_data",
+            "header": "true"
+        }
+    },
+    "targetDetails": {
+        "table": "classstructure",
+        "path": "Ignore",
+        "tableProperties": {
+            "delta.enableChangeDataFeed": "true"
+        },
+        "schemaPath": "classstructure_schema.json"
+    },
+    "dataFlowId": "maximo_classstructure",
+    "dataFlowGroup": "maximo_bronze",
+    "sourceSystem": "maximo",
+    "sourceType": "cloudFiles",
+    "cdcApplyChanges": {
+        "keys": [
+            "N/A"
+        ],
+        "scd_type": "2",
+        "except_column_list": [
+            "N/A"
+        ]
+    },
+    "sourceViewName": "v_classstructure"
+}

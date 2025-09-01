@@ -1,0 +1,14 @@
+{
+    "expect_or_drop": [
+        {
+            "name": "Op not null",
+            "constraint": "Op IS NOT NULL",
+            "tag": "Validity"
+        },
+        {
+            "name": "CDC Timestamp not null",
+            "constraint": "DMS_CDC_TIMESTAMP IS NOT NULL",
+            "tag": "Validity"
+        }
+    ]
+}

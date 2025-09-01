@@ -1,0 +1,71 @@
+[
+  {
+    "data_flow_id": "100",
+    "data_flow_group": "Maximo_Group1",
+    "source_system": "Maximo",
+    "source_format": "cloudFiles",
+    "source_details": {
+      "source_database": "Oracle",
+      "source_table": "a_pmsequence",
+      "source_path_dev": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/A_PMSEQUENCE"
+    },
+    "bronze_database_dev": "edp_bronze_dev.maximo",
+    "bronze_table": "a_pmsequence",
+    "bronze_reader_options": {
+      "cloudFiles.format": "parquet",
+      "cloudFiles.inferColumnTypes": "true",
+      "cloudFiles.rescuedDataColumn": "_rescued_data",
+      "header": "true"
+    },
+    "bronze_table_path_dev": "ignore",
+    "silver_database_dev": "N/A",
+    "silver_table": "N/A",
+    "silver_cdc_apply_changes": {
+      "keys": [
+        "N/A"
+      ],
+      "sequence_by": "N/A",
+      "scd_type": "2",
+      "except_column_list": [
+        "N/A"
+      ]
+    },
+    "silver_table_path_dev": "Ignore",
+    "silver_transformation_json_dev": "/Workspace/EDP/silver/ods/maximo/files/src/silvertransforms_maximo.json"
+  },
+  {
+    "data_flow_id": "101",
+    "data_flow_group": "Maximo_Group1",
+    "source_system": "Maximo",
+    "source_format": "cloudFiles",
+    "source_details": {
+      "source_database": "Oracle",
+      "source_table": "asset",
+      "source_path_dev": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/ASSET"
+    },
+    "bronze_database_dev": "edp_bronze_dev.maximo",
+    "bronze_table": "asset",
+    "bronze_reader_options": {
+      "cloudFiles.format": "parquet",
+      "cloudFiles.inferColumnTypes": "true",
+      "cloudFiles.rescuedDataColumn": "_rescued_data",
+      "header": "true"
+    },
+    "bronze_table_path_dev": "ignore",
+    "silver_database_dev": "edp_silver_dev.maximo_ods",
+    "silver_table": "asset",
+    "silver_cdc_apply_changes": {
+      "keys": [
+        "ASSETID",
+        "ASSETUID"
+      ],
+      "sequence_by": "DMS_CDC_TIMESTAMP",
+      "scd_type": "2",
+      "except_column_list": [
+        "DMS_CDC_TIMESTAMP"
+      ]
+    },
+    "silver_table_path_dev": "Ignore",
+    "silver_transformation_json_dev": "/Workspace/EDP/silver/ods/maximo/files/src/silvertransforms_maximo.json"
+  }
+]

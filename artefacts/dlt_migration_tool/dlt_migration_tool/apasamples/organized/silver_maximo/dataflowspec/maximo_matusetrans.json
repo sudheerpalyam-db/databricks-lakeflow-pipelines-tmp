@@ -1,0 +1,39 @@
+{
+    "dataFlowType": "standard",
+    "mode": "stream",
+    "targetFormat": "delta",
+    "sourceDetails": {
+        "database": "Oracle",
+        "table": "matusetrans",
+        "path": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/MATUSETRANS",
+        "readerOptions": {
+            "cloudFiles.format": "parquet",
+            "cloudFiles.inferColumnTypes": "true",
+            "cloudFiles.rescuedDataColumn": "_rescued_data",
+            "header": "true"
+        }
+    },
+    "targetDetails": {
+        "table": "matusetrans",
+        "path": "Ignore",
+        "tableProperties": {
+            "delta.enableChangeDataFeed": "true"
+        },
+        "schemaPath": "matusetrans_schema.json"
+    },
+    "dataFlowId": "maximo_matusetrans",
+    "dataFlowGroup": "silver_maximo",
+    "sourceSystem": "maximo",
+    "sourceType": "cloudFiles",
+    "cdcApplyChanges": {
+        "keys": [
+            "MATUSETRANSID"
+        ],
+        "sequence_by": "DMS_CDC_TIMESTAMP",
+        "scd_type": "2",
+        "except_column_list": [
+            "DMS_CDC_TIMESTAMP"
+        ]
+    },
+    "sourceViewName": "v_matusetrans"
+}

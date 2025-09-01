@@ -1,0 +1,38 @@
+{
+  "dataFlowId": "workday_cost_center_organization_container_reference",
+  "dataFlowGroup": "silver_workday_xml",
+  "dataFlowType": "standard",
+  "sourceSystem": "workday",
+  "sourceType": "python",
+  "sourceViewName": "v_cost_center_organization_container_reference",
+  "sourceDetails": {
+      "tokens": {
+          "df": "utilities_dev.workday_xml.bronze_cost_centers",
+          "xml_col": "Cost_Center_Organization_Container_Reference",
+          "node_path": "Organization_Container_Reference",
+          "keys": "{'Custom_Organization_Reference_ID': 'custom_organization_reference_id', 'Organization_Reference_ID': 'organization_reference_id', 'WID': 'wid'}",
+          "carry_cols": "['COST_CENTER_REFERENCE_WID','load_datetime']"
+      },
+      "pythonFunctionPath": "flatten_xml_field_v2.py"
+  },
+  "mode": "stream",
+  "targetFormat": "delta",
+  "targetDetails": {
+      "table": "utilities_dev.workday_xml.workday_cost_center_organization_container_reference_lf",
+      "tableProperties": {
+          "delta.enableChangeDataFeed": "true"
+      },
+      "schemaPath": "workday_cost_center_organization_container_reference.json"
+  },
+  "cdcSettings": {
+    "keys": [
+      "COST_CENTER_REFERENCE_WID",
+      "custom_organization_reference_id"
+    ],
+    "sequence_by": "load_datetime",
+    "scd_type": "2",
+    "except_column_list": [
+      "meta_load_details"
+    ]
+  }
+}

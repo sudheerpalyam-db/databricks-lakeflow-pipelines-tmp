@@ -1,0 +1,249 @@
+stages:
+  - lint
+  - validate
+  - summary
+  - deploy
+  - destroy
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
+image:
+  name: ${NRPM_DOCKER_GROUP_ENDPOINT_NONPROD}:443/gitlab-edp-build-alpine-standard:latest
+  entrypoint:
+    - "/usr/bin/env"
+    - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+variables:
+  NEXUS_RPM_REPO: docker-group-edp
+  NEXUS_RPM_HOSTNAME: "nexus-rpm.devops.aws.apa.local"
+  PIPELINES_PREPROD_DEPLOY_DEV_SP: "sp-preprod-lakeflow_pipelines-deploy-dev"
+  PIPELINES_PREPROD_EXECUTE_DEV_SP: "sp-preprod-lakeflow_pipelines-dev"
+  PIPELINES_PREPROD_DEPLOY_TEST_SP: "sp-preprod-lakeflow_pipelines-deploy-test"
+  PIPELINES_PREPROD_EXECUTE_TEST_SP: "sp-preprod-lakeflow_pipelines-test"
+  VAULT_AUTH_PREPROD_READER_ROLE: medallion-cicd-read-role-preprod
+  VAULT_AUTH_PREPROD_WRITER_ROLE: medallion-cicd-write-role-preprod
+  VAULT_AUTH_ROLE: medallion-cicd-read-role-nonprod 
+  VAULT_NAMESPACE: ${VAULT_NAMESPACE}
+  VAULT_ADDR: ${VAULT_SERVER_URL}
+  VERSION: $CI_COMMIT_SHA
+#------------------------------------------------------------------------------
+# Scripts
+#------------------------------------------------------------------------------
+.setup-script:
+  script:
+    - git config --global --add safe.directory /builds/apa/edp/medallion/databricks-lakeflow-pipelines
+    - git checkout $VERSION
+    - echo "Version ${VERSION}"
+    - echo "Target branch ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
+    - cd maximo
+    - export BUNDLE_VAR_env="${ENV}"
+    - export BUNDLE_VAR_databricks_host="${DATABRICKS_HOST}"
+    - export BUNDLE_VAR_platform_name="${EDP_PLATFORM_NAME}"
+.validate-script:
+  script:
+    - databricks bundle validate --target actual
+.summary-script:
+  script:
+    - databricks bundle summary --target actual
+.deploy-script:
+  script:
+    - databricks bundle deploy --target actual --auto-approve
+.destroy-script:
+  script:
+    - databricks bundle destroy --target actual --auto-approve
+.get-secrets-preprod-dev:
+  id_tokens:
+    VAULT_JWT_TOKEN:
+      aud: ${VAULT_SERVER_URL}
+  secrets:
+    DATABRICKS_CLIENT_SECRET:
+      vault: databricks/credentials/$PIPELINES_PREPROD_DEPLOY_DEV_SP/secret@medallion/secret/preprod
+      file: false
+    DATABRICKS_CLIENT_ID:
+      vault: databricks/credentials/$PIPELINES_PREPROD_DEPLOY_DEV_SP/client_id@medallion/secret/preprod
+      file: false
+.get-secrets-preprod-test:
+  id_tokens:
+    VAULT_JWT_TOKEN:
+      aud: ${VAULT_SERVER_URL}
+  secrets:
+    DATABRICKS_CLIENT_SECRET:
+      vault: databricks/credentials/$PIPELINES_PREPROD_DEPLOY_TEST_SP/secret@medallion/secret/preprod
+      file: false
+    DATABRICKS_CLIENT_ID:
+      vault: databricks/credentials/$PIPELINES_PREPROD_DEPLOY_TEST_SP/client_id@medallion/secret/preprod
+      file: false
+
+#------------------------------------------------------------------------------
+# BUILD
+#------------------------------------------------------------------------------
+check_code:
+  stage: lint
+  extends: .get-secrets-preprod-dev
+  variables:
+    ENV: dev
+    VAULT_AUTH_ROLE: medallion-cicd-read-role-preprod
+    VERSION: $CI_COMMIT_SHORT_SHA
+    DATABRICKS_HOST: "https://apa-dbws-preprodedp-apsoutheast2-dev.cloud.databricks.com"
+    EDP_PLATFORM_NAME: preprod_edp
+  environment:
+    name: preprod
+  script:
+    - !reference [.setup-script, script]
+    - black --check .
+    - flake8
+    # - ruff check .
+  tags:
+    - apa-edp-preprod
+#------------------------------------------------------------------------------
+# DEV
+#------------------------------------------------------------------------------
+validate_bundle_dev:
+  stage: validate
+  allow_failure: false
+  extends: .get-secrets-preprod-dev
+  variables:
+    ENV: dev
+    VAULT_AUTH_ROLE: medallion-cicd-write-role-preprod
+    DATABRICKS_HOST: "https://apa-dbws-preprodedp-apsoutheast2-dev.cloud.databricks.com"
+    EDP_PLATFORM_NAME: preprod_edp
+  environment:
+    name: dev
+  script:
+    - !reference [.setup-script, script]
+    - !reference [.validate-script, script]
+  tags:
+    - apa-edp-preprod
+
+summary_bundle_dev:
+  stage: summary
+  allow_failure: false
+  extends: .get-secrets-preprod-dev
+  variables:
+    ENV: dev
+    VAULT_AUTH_ROLE: medallion-cicd-write-role-preprod
+    DATABRICKS_HOST: "https://apa-dbws-preprodedp-apsoutheast2-dev.cloud.databricks.com"
+    EDP_PLATFORM_NAME: preprod_edp
+  environment:
+    name: dev
+  script:
+    - !reference [.setup-script, script]
+    - !reference [.summary-script, script]
+  tags:
+    - apa-edp-preprod
+
+deploy_bundle_dev:
+  stage: deploy
+  when: manual
+  allow_failure: false
+  extends: .get-secrets-preprod-dev
+  needs:
+    - validate_bundle_dev
+  variables:
+    ENV: dev
+    VAULT_AUTH_ROLE: medallion-cicd-write-role-preprod
+    DATABRICKS_HOST: "https://apa-dbws-preprodedp-apsoutheast2-dev.cloud.databricks.com"
+    EDP_PLATFORM_NAME: preprod_edp
+  environment:
+    name: dev
+  script:
+    - !reference [.setup-script, script]
+    - !reference [.deploy-script, script]
+  tags:
+    - apa-edp-preprod
+
+destroy_bundle_dev:
+  stage: destroy
+  when: manual
+  allow_failure: false
+  extends: .get-secrets-preprod-dev
+  needs:
+    - validate_bundle_dev
+  variables:
+    ENV: dev
+    VAULT_AUTH_ROLE: medallion-cicd-write-role-preprod
+    DATABRICKS_HOST: "https://apa-dbws-preprodedp-apsoutheast2-dev.cloud.databricks.com"
+    EDP_PLATFORM_NAME: preprod_edp
+  environment:
+    name: dev
+  script:
+    - !reference [.setup-script, script]
+    - !reference [.destroy-script, script]
+  tags:
+    - apa-edp-preprod
+
+#------------------------------------------------------------------------------
+# TEST
+#------------------------------------------------------------------------------
+validate_bundle_test:
+  stage: validate
+  allow_failure: false
+  extends: .get-secrets-preprod-test
+  variables:
+    ENV: test
+    VAULT_AUTH_ROLE: medallion-cicd-write-role-preprod
+    DATABRICKS_HOST: "https://apa-dbws-preprodedp-apsoutheast2-test.cloud.databricks.com"
+    EDP_PLATFORM_NAME: preprod_edp
+  environment:
+    name: test
+  script:
+    - !reference [.setup-script, script]
+    - !reference [.validate-script, script]
+  tags:
+    - apa-edp-preprod
+
+summary_bundle_test:
+  stage: summary
+  allow_failure: false
+  extends: .get-secrets-preprod-test
+  variables:
+    ENV: test
+    VAULT_AUTH_ROLE: medallion-cicd-write-role-preprod
+    DATABRICKS_HOST: "https://apa-dbws-preprodedp-apsoutheast2-test.cloud.databricks.com"
+    EDP_PLATFORM_NAME: preprod_edp
+  environment:
+    name: test
+  script:
+    - !reference [.setup-script, script]
+    - !reference [.summary-script, script]
+  tags:
+    - apa-edp-preprod
+
+deploy_bundle_test:
+  stage: deploy
+  when: manual
+  allow_failure: false
+  extends: .get-secrets-preprod-test
+  needs:
+    - validate_bundle_test
+  variables:
+    ENV: test
+    VAULT_AUTH_ROLE: medallion-cicd-write-role-preprod
+    DATABRICKS_HOST: "https://apa-dbws-preprodedp-apsoutheast2-test.cloud.databricks.com"
+    EDP_PLATFORM_NAME: preprod_edp
+  environment:
+    name: test
+  script:
+    - !reference [.setup-script, script]
+    - !reference [.deploy-script, script]
+  tags:
+    - apa-edp-preprod
+
+destroy_bundle_test:
+  stage: destroy
+  when: manual
+  allow_failure: false
+  extends: .get-secrets-preprod-test
+  needs:
+    - validate_bundle_test
+  variables:
+    ENV: test
+    VAULT_AUTH_ROLE: medallion-cicd-write-role-preprod
+    DATABRICKS_HOST: "https://apa-dbws-preprodedp-apsoutheast2-test.cloud.databricks.com"
+    EDP_PLATFORM_NAME: preprod_edp
+  environment:
+    name: test
+  script:
+    - !reference [.setup-script, script]
+    - !reference [.destroy-script, script]
+  tags:
+    - apa-edp-preprod

@@ -1,0 +1,40 @@
+{
+    "dataFlowType": "standard",
+    "mode": "stream",
+    "targetFormat": "delta",
+    "sourceDetails": {
+        "database": "Oracle",
+        "table": "invoicetrans",
+        "path": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/INVOICETRANS",
+        "readerOptions": {
+            "cloudFiles.format": "parquet",
+            "cloudFiles.inferColumnTypes": "true",
+            "cloudFiles.rescuedDataColumn": "_rescued_data",
+            "header": "true"
+        }
+    },
+    "targetDetails": {
+        "table": "invoicetrans",
+        "path": "Ignore",
+        "tableProperties": {
+            "delta.enableChangeDataFeed": "true"
+        },
+        "schemaPath": "invoicetrans_schema.json"
+    },
+    "dataFlowId": "maximo_invoicetrans",
+    "dataFlowGroup": "silver_maximo",
+    "sourceSystem": "maximo",
+    "sourceType": "cloudFiles",
+    "cdcApplyChanges": {
+        "keys": [
+            "INVOICETRANSID"
+        ],
+        "sequence_by": "DMS_CDC_TIMESTAMP",
+        "scd_type": "2",
+        "except_column_list": [
+            "DMS_CDC_TIMESTAMP",
+            "_rescued_data"
+        ]
+    },
+    "sourceViewName": "v_invoicetrans"
+}

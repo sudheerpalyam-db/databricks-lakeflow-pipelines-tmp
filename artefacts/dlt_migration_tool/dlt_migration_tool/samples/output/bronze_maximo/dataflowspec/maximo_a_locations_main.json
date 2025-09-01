@@ -1,0 +1,32 @@
+{
+  "dataFlowId": "maximo_a_locations",
+  "dataFlowGroup": "bronze_maximo",
+  "dataFlowType": "standard",
+  "sourceSystem": "maximo",
+  "sourceType": "cloudFiles",
+  "sourceViewName": "v_a_locations",
+  "sourceDetails": {
+    "path": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/A_LOCATIONS",
+    "readerOptions": {
+      "cloudFiles.format": "parquet",
+      "cloudFiles.inferColumnTypes": "true",
+      "cloudFiles.rescuedDataColumn": "_rescued_data",
+      "header": "true"
+    }
+  },
+  "mode": "stream",
+  "targetFormat": "delta",
+  "targetDetails": {
+    "table": "a_locations",
+    "tableProperties": {
+      "delta.enableChangeDataFeed": "true"
+    },
+    "schemaPath": "maximo_a_locations_schema.json"
+  },
+  "dataQualityExpectationsEnabled": true,
+  "dataQualityExpectationsPath": "./maximo_a_locations_dqe.json",
+  "quarantineMode": "table",
+  "quarantineTargetDetails": {
+    "targetFormat": "delta"
+  }
+}

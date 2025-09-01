@@ -1,0 +1,30 @@
+{
+  "dataFlowId": "maximo_invoice",
+  "dataFlowGroup": "bronze_maximo",
+  "dataFlowType": "standard",
+  "sourceSystem": "maximo",
+  "sourceType": "cloudFiles",
+  "sourceViewName": "v_invoice",
+  "sourceDetails": {
+    "path": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/INVOICE",
+    "readerOptions": {
+      "cloudFiles.format": "parquet",
+      "cloudFiles.inferColumnTypes": "true",
+      "cloudFiles.rescuedDataColumn": "_rescued_data",
+      "header": "true"
+    }
+  },
+  "mode": "stream",
+  "targetFormat": "delta",
+  "targetDetails": {
+    "table": "invoice",
+    "tableProperties": {
+      "delta.enableChangeDataFeed": "true"
+    },
+    "schemaPath": "maximo_invoice_schema.json"
+  },
+  "dataQualityExpectationsEnabled": false,
+  "quarantineTargetDetails": {
+    "targetFormat": "delta"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "dataFlowId": "maximo_invoice",
+  "dataFlowGroup": "silver_maximo",
+  "dataFlowType": "standard",
+  "sourceSystem": "maximo",
+  "sourceType": "delta",
+  "sourceViewName": "v_invoice",
+  "sourceDetails": {
+    "cdfEnabled": true,
+    "database": "edp_bronze_dev.maximo_lakeflow",
+    "table": "invoice"
+  },
+  "mode": "stream",
+  "targetFormat": "delta",
+  "targetDetails": {
+    "table": "invoice",
+    "tableProperties": {
+      "delta.enableChangeDataFeed": "true"
+    },
+    "schemaPath": "maximo_invoice_schema.json"
+  },
+  "cdcSettings": {
+    "keys": [
+      "INVOICEID"
+    ],
+    "sequence_by": "DMS_CDC_TIMESTAMP",
+    "scd_type": "2",
+    "except_column_list": [
+      "DMS_CDC_TIMESTAMP",
+      "meta_load_details"
+    ]
+  }
+}

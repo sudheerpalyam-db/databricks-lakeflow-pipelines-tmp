@@ -1,0 +1,38 @@
+{
+    "dataFlowType": "standard",
+    "mode": "stream",
+    "targetFormat": "delta",
+    "sourceDetails": {
+        "database": "Oracle",
+        "table": "amcrew",
+        "path": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/AMCREW",
+        "readerOptions": {
+            "cloudFiles.format": "parquet",
+            "cloudFiles.inferColumnTypes": "true",
+            "cloudFiles.rescuedDataColumn": "_rescued_data",
+            "header": "true"
+        }
+    },
+    "targetDetails": {
+        "table": "amcrew",
+        "path": "Ignore",
+        "tableProperties": {
+            "delta.enableChangeDataFeed": "true"
+        },
+        "schemaPath": "amcrew_schema.json"
+    },
+    "dataFlowId": "maximo_amcrew",
+    "dataFlowGroup": "maximo_bronze",
+    "sourceSystem": "maximo",
+    "sourceType": "cloudFiles",
+    "cdcApplyChanges": {
+        "keys": [
+            "N/A"
+        ],
+        "scd_type": "2",
+        "except_column_list": [
+            "N/A"
+        ]
+    },
+    "sourceViewName": "v_amcrew"
+}

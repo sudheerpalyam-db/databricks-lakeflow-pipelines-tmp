@@ -1,0 +1,40 @@
+# This is a Databricks asset bundle definition for bronze_sample.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: workday
+
+include:
+  - resources/**/*.yml
+
+variables:
+  bronze_catalog: 
+    description: The target bronze UC catalog
+    default: edp_bronze_dev
+  bronze_schema: 
+    description: The target bronze UC schema
+    default: workday_lakeflow
+  silver_catalog:
+    description: The target silver UC catalog
+    default: edp_silver_dev
+  silver_schema:
+    description: The target silver UC schema
+    default: workday_ods_lakeflow
+  framework_source_path:
+    description: The full workspace path to the framwework src folder
+    default: /Workspace/Users/0637d5bb-b08c-433b-b5b5-27ee089acd15/.bundle/lakeflow_framework/actual/current/files/src
+  env:
+    description: Databricks Workspace Environment
+  databricks_host:
+    description: Databricks Workspace host - workspace url used for API calls from Framework (usually same as deployment URL) e.g. https://apa-dbws-preprodedp-apsoutheast2-dev.cloud.databricks.com/)
+  platform_name:
+    description: EDP platform name
+
+targets:
+  # The 'dev' target, for development purposes. This target is the default.
+  local:
+    mode: development
+    default: true
+  actual: # Target deployed by the Gitlab pipeline
+    mode: production # This is a setting, not the environment
+    workspace:
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}

@@ -1,0 +1,38 @@
+{
+    "dataFlowType": "standard",
+    "mode": "stream",
+    "targetFormat": "delta",
+    "sourceDetails": {
+        "database": "Oracle",
+        "table": "assetattribute",
+        "path": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/ASSETATTRIBUTE",
+        "readerOptions": {
+            "cloudFiles.format": "parquet",
+            "cloudFiles.inferColumnTypes": "true",
+            "cloudFiles.rescuedDataColumn": "_rescued_data",
+            "header": "true"
+        }
+    },
+    "targetDetails": {
+        "table": "assetattribute",
+        "path": "Ignore",
+        "tableProperties": {
+            "delta.enableChangeDataFeed": "true"
+        },
+        "schemaPath": "assetattribute_schema.json"
+    },
+    "dataFlowId": "maximo_assetattribute",
+    "dataFlowGroup": "maximo_bronze",
+    "sourceSystem": "maximo",
+    "sourceType": "cloudFiles",
+    "cdcApplyChanges": {
+        "keys": [
+            "N/A"
+        ],
+        "scd_type": "2",
+        "except_column_list": [
+            "N/A"
+        ]
+    },
+    "sourceViewName": "v_assetattribute"
+}

@@ -1,0 +1,89 @@
+{
+    "title": "Main DataFlowSpec",
+    "$defs": {
+        "standardSpec": {
+            "properties": {
+                "dataFlowId": {"type": "string"},
+                "dataFlowGroup": {"type": "string"},
+                "dataFlowType": {"type": "string", "enum": ["flow", "standard", "materialized_views"]},
+                "features": {"type": "object", "additionalProperties": true},
+                "sourceSystem": {"type": "string"}, 
+                "sourceType": {"type": "string", "enum": ["batchFiles", "cloudFiles", "delta", "deltaJoin", "eventHub", "kafka", "python", "sql"]},
+                "sourceDetails": {"type": "object"},
+                "sourceViewName": {"type": "string","pattern": "v_([A-Za-z0-9_]+)"},
+                "mode": {"type": "string", "enum": ["stream","batch"]},
+                "targetFormat": {"type": "string", "enum": ["delta", "delta_sink", "kafka_sink"]},
+                "targetDetails": {"type": "object"},
+                "cdcSettings": {"$ref": "./definitions_main.json#/definitions/cdcSettings"},
+                "cdcSnapshotSettings": {"$ref": "./definitions_main.json#/definitions/cdcSnapshotSettings"},
+                "dataQualityExpectationsEnabled": {"type": "boolean", "default": false},
+                "dataQualityExpectationsPath": {"type": "string"},
+                "quarantineMode": {"type": "string", "enum": ["off", "flag", "table"], "default": "off"},
+                "quarantineTargetDetails": {"$ref": "./definitions_main.json#/definitions/quarantineTargetDetails"},
+                "tableMigrationDetails": {"$ref": "./definitions_main.json#/definitions/tableMigrationDetails"}
+            },
+            "required": ["dataFlowId", "dataFlowGroup", "dataFlowType", "targetFormat", "targetDetails"],
+            "additionalProperties": false,
+            "dependentSchemas": {
+                "sourceType": { "$ref": "./definitions_sources.json#/sourceType"},
+                "targetFormat": {
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "targetFormat": { "const": "delta" },
+                                "targetDetails": { "$ref": "./definitions_targets.json#/target/targetDelta" }
+                            }
+                        },
+                        {
+                            "properties": {
+                                "targetFormat": { "const": "kafka_sink" },
+                                "targetDetails": { "$ref": "./definitions_targets.json#/target/targetKafkaSink" }
+                            }
+                        }
+                    ]
+                }
+            },
+            "not": {"required": ["cdcSettings", "cdcSnapshotSettings"]},
+            "allOf": [
+                {
+                    "if": {
+                        "not": {
+                            "properties": {
+                                "cdcSnapshotSettings": {
+                                    "properties": {
+                                        "snapshotType": {"const": "historical"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": ["sourceSystem", "sourceType", "sourceViewName", "mode", "sourceDetails"]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "dataQualityExpectationsEnabled": { "const": true }
+                        },
+                        "required": ["dataQualityExpectationsEnabled"]
+                    },
+                    "then": {
+                        "required": ["dataQualityExpectationsPath"]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "quarantineMode": { "const": "table" }
+                        },
+                        "required": ["quarantineMode"]
+                    },
+                    "then": {
+                        "required": ["quarantineTargetDetails"]
+                    }
+                }
+            ]
+        }
+    }
+}

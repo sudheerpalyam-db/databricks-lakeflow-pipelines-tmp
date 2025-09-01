@@ -1,0 +1,9 @@
+{
+  "expectations": [
+    {
+      "name": "Valid record count",
+      "expression": "count(*) > 0",
+      "level": "warning"
+    }
+  ]
+}

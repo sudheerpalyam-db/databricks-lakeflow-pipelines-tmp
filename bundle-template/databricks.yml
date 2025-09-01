@@ -1,0 +1,36 @@
+# This is a Databricks asset bundle definition for bronze_sample.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: bundle_template
+
+include:
+  - scratch/resources/*.yml
+
+variables:
+  catalog:
+    description: The target UC catalog
+    default: edp_bronze_dev
+  framework_source_path:
+    description: The full workspace path to the framwework src folder
+  # Infrastructure variables - required to create the job
+  env:
+    description: Databricks Workspace Environment
+  databricks_host:
+    description: Databricks Workspace host - workspace url used for API calls from Framework (usually same as deployment URL) e.g. https://apa-dbws-preprodedp-apsoutheast2-dev.cloud.databricks.com/)
+  platform_name:
+    description: EDP platform name
+  run_as_sp_id:
+    description: UUID of the run as SP
+
+
+targets:
+  # The 'dev' target, for development purposes. This target is the default.
+  local:
+    mode: development
+    default: true
+  actual: # Target deployed by the Gitlab pipeline
+    mode: production # This is a setting, not the environment
+    workspace:
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+    run_as:
+      service_principal_name: ${var.run_as_sp_id}

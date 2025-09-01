@@ -1,0 +1,122 @@
+{
+    "title": "Target DataflowSpec Definitions",
+    "target": {
+        "targetDelta": {
+            "type": "object",
+            "properties": {
+                "database": {"type": "string"},
+                "table": {"type": "string"},
+                "type": {"type": "string", "enum": ["ST", "MV"]},
+                "schemaPath": {"type": "string", "pattern": "\\.(json|ddl)$"},
+                "tableProperties": {"type": "object"},
+                "path": {"type": "string"},
+                "partitionColumns": {"type": "array", "items": {"type": "string"}},
+                "clusterByColumns": {"type": "array", "items": {"type": "string"}}
+            },
+            "dependentSchemas": {
+                "type": {
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "type": { "const": "ST" },
+                                "database": {"type": "string"},
+                                "table": {"type": "string"},
+                                "schemaPath": {"type": "string", "pattern": "\\.(json|ddl)$"},
+                                "tableProperties": {"type": "object"},
+                                "path": {"type": "string"},
+                                "partitionColumns": {"type": "array", "items": {"type": "string"}},
+                                "clusterByColumns": {"type": "array", "items": {"type": "string"}}
+                            },
+                            "additionalProperties": false
+                        },
+                        {
+                            "properties": {
+                                "type": { "const": "MV" },
+                                "database": {"type": "string"},
+                                "table": {"type": "string"},
+                                "schemaPath": {"type": "string", "pattern": "\\.(json|ddl)$"},
+                                "tableProperties": {"type": "object"},
+                                "path": {"type": "string"},
+                                "partitionColumns": {"type": "array", "items": {"type": "string"}},
+                                "clusterByColumns": {"type": "array", "items": {"type": "string"}},
+                                "sourceView": {"type": "string"}
+                            },
+                            "required": ["sourceView"],
+                            "additionalProperties": false
+                        },
+                        {
+                            "properties": {
+                                "type": { "const": "MV" },
+                                "database": {"type": "string"},
+                                "table": {"type": "string"},
+                                "schemaPath": {"type": "string", "pattern": "\\.(json|ddl)$"},
+                                "tableProperties": {"type": "object"},
+                                "path": {"type": "string"},
+                                "partitionColumns": {"type": "array", "items": {"type": "string"}},
+                                "clusterByColumns": {"type": "array", "items": {"type": "string"}},
+                                "sqlPath": {"type": "string"}
+                            },
+                            "required": ["sqlPath"],
+                            "additionalProperties": false
+                        },
+                        {
+                            "properties": {
+                                "type": { "const": "MV" },
+                                "database": {"type": "string"},
+                                "table": {"type": "string"},
+                                "schemaPath": {"type": "string", "pattern": "\\.(json|ddl)$"},
+                                "tableProperties": {"type": "object"},
+                                "path": {"type": "string"},
+                                "partitionColumns": {"type": "array", "items": {"type": "string"}},
+                                "clusterByColumns": {"type": "array", "items": {"type": "string"}},
+                                "sqlStatement": {"type": "string"}
+                            },
+                            "required": ["sqlStatement"],
+                            "additionalProperties": false
+                        }
+                    ]
+                }
+            },
+            "required": ["table"],
+            "oneOf": [
+                {
+                    "required": ["clusterByColumns"],
+                    "not": {
+                        "required": ["partitionColumns"]
+                    }
+                },
+                {
+                    "required": ["partitionColumns"],
+                    "not": {
+                        "required": ["clusterByColumns"]
+                    }
+                },
+                {
+                    "not": {
+                        "required": ["clusterByColumns", "partitionColumns"]
+                    }
+                }
+            ]
+        },
+        "targetKafkaSink": {
+            "type": "object",
+            "properties": {
+                "topic": {"type": "string"},
+                "kafkaOptions": {
+                    "type": "object",
+                    "properties": {
+                        "kafka.bootstrap.servers": {"type": "string"},
+                        "kafka.group.id": {"type": "string"},
+                        "kafka.security.protocol": {"type": "string", "default": "SASL_SSL"},
+                        "kafka.ssl.keystore.location": {"type": "string"},
+                        "kafka.ssl.keystore.password": {"type": "string"},
+                        "kafka.ssl.truststore.location": {"type": "string"},
+                        "kafka.ssl.truststore.password": {"type": "string"}
+                    }
+                }
+            },
+            "required": ["kafkaOptions", "topic"],
+            "additionalProperties": false
+        }
+    }
+}

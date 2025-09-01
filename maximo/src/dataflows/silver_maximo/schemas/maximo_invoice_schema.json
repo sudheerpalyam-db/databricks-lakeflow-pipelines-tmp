@@ -1,0 +1,545 @@
+{
+  "fields": [
+    {
+      "metadata": {},
+      "name": "Op",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "DMS_CDC_TIMESTAMP",
+      "nullable": true,
+      "type": "timestamp"
+    },
+    {
+      "metadata": {},
+      "name": "INVOICENUM",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "DESCRIPTION",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "PONUM",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "VENDOR",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "CONTACT",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "PAYMENTTERMS",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "CHECKCODE",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "CHECKNUM",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "CURRENCYCODE",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "EXCHANGERATE",
+      "nullable": true,
+      "type": "decimal(14,7)"
+    },
+    {
+      "metadata": {},
+      "name": "EXCHANGEDATE",
+      "nullable": true,
+      "type": "timestamp"
+    },
+    {
+      "metadata": {},
+      "name": "DOCUMENTTYPE",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "ORIGINVOICENUM",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "STATUS",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "STATUSDATE",
+      "nullable": true,
+      "type": "timestamp"
+    },
+    {
+      "metadata": {},
+      "name": "APPROVALNUM",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "INVOICEDATE",
+      "nullable": true,
+      "type": "timestamp"
+    },
+    {
+      "metadata": {},
+      "name": "DISCOUNTDATE",
+      "nullable": true,
+      "type": "timestamp"
+    },
+    {
+      "metadata": {},
+      "name": "DUEDATE",
+      "nullable": true,
+      "type": "timestamp"
+    },
+    {
+      "metadata": {},
+      "name": "PAIDDATE",
+      "nullable": true,
+      "type": "timestamp"
+    },
+    {
+      "metadata": {},
+      "name": "PAID",
+      "nullable": true,
+      "type": "decimal(10,2)"
+    },
+    {
+      "metadata": {},
+      "name": "ENTERDATE",
+      "nullable": true,
+      "type": "timestamp"
+    },
+    {
+      "metadata": {},
+      "name": "ENTERBY",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "CHANGEDATE",
+      "nullable": true,
+      "type": "timestamp"
+    },
+    {
+      "metadata": {},
+      "name": "CHANGEBY",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "HISTORYFLAG",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "TOTALTAX1",
+      "nullable": true,
+      "type": "decimal(10,2)"
+    },
+    {
+      "metadata": {},
+      "name": "TAX1GL",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "TOTALTAX2",
+      "nullable": true,
+      "type": "decimal(10,2)"
+    },
+    {
+      "metadata": {},
+      "name": "TAX2GL",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "TOTALTAX3",
+      "nullable": true,
+      "type": "decimal(10,2)"
+    },
+    {
+      "metadata": {},
+      "name": "TAX3GL",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "TOTALTAX4",
+      "nullable": true,
+      "type": "decimal(10,2)"
+    },
+    {
+      "metadata": {},
+      "name": "TAX4GL",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "INCLUSIVE1",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "INCLUSIVE2",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "INCLUSIVE3",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "DISCOUNT",
+      "nullable": true,
+      "type": "decimal(10,2)"
+    },
+    {
+      "metadata": {},
+      "name": "TOTALCOST",
+      "nullable": true,
+      "type": "decimal(10,2)"
+    },
+    {
+      "metadata": {},
+      "name": "SYSCODE",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "TOTALTAX5",
+      "nullable": true,
+      "type": "decimal(10,2)"
+    },
+    {
+      "metadata": {},
+      "name": "TAX5GL",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "INCLUSIVE4",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "INCLUSIVE5",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "VENDORINVOICENUM",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "BASETOTALCOST",
+      "nullable": true,
+      "type": "decimal(13,2)"
+    },
+    {
+      "metadata": {},
+      "name": "APSUSPENSEACCT",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "APCONTROLACCT",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "FINANCIALPERIOD",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "EXCHANGERATE2",
+      "nullable": true,
+      "type": "decimal(14,7)"
+    },
+    {
+      "metadata": {},
+      "name": "BANKACCOUNT",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "BANKNUM",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "SOURCESYSID",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "OWNERSYSID",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "EXTERNALREFID",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "SENDERSYSID",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "EINVOICE",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "SITEID",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "ORGID",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "INVOICEID",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "SCHEDULEID",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "CONTRACTREFNUM",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "CONTRACTREFREV",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "CONTRACTREFID",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "TARGINVSTATUS",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "SCHEDULENUM",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "LANGCODE",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "HASLD",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "SCHEDULEREV",
+      "nullable": true,
+      "type": "decimal(38,10)"
+    },
+    {
+      "metadata": {},
+      "name": "POSITEID",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "GLPOSTDATE",
+      "nullable": true,
+      "type": "timestamp"
+    },
+    {
+      "metadata": {},
+      "name": "REVINVOICENUM",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "REVREASON",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "ROWSTAMP",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "APAOLD_APCONTROLACCT",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "APAOLD_APSUSPENSEACCT",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "APAOLD_TAX1GL",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "APAOLD_TAX2GL",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "APAOLD_TAX3GL",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "APAOLD_TAX4GL",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "APAOLD_TAX5GL",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "APA_SUPPLIER",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "APA_INVRECDATE",
+      "nullable": true,
+      "type": "timestamp"
+    },
+    {
+      "metadata": {},
+      "name": "APA_WDCOMP",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "APA_REMITTO",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "APA_VALSTATUS",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "APA_VALERROR",
+      "nullable": true,
+      "type": "string"
+    },
+    {
+      "metadata": {},
+      "name": "_rescued_data",
+      "nullable": true,
+      "type": "string"
+    }
+  ],
+  "type": "struct"
+}

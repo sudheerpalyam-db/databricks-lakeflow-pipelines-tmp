@@ -1,0 +1,35 @@
+{
+  "fields": [
+    {
+      "name": "COST_CENTER_REFERENCE_WID",
+      "type": "string",
+      "nullable": true,
+      "metadata": {}
+    } ,
+    {
+      "name": "load_datetime",
+      "type": "timestamp",
+      "nullable": true,
+      "metadata": {}
+    } ,
+    {
+      "name": "custom_organization_reference_id",
+      "type": "string",
+      "nullable": true,
+      "metadata": {}
+    } ,
+    {
+      "name": "organization_reference_id",
+      "type": "string",
+      "nullable": true,
+      "metadata": {}
+    } ,
+    {
+      "name": "wid",
+      "type": "string",
+      "nullable": true,
+      "metadata": {}
+    }
+  ],
+  "type": "struct"
+}

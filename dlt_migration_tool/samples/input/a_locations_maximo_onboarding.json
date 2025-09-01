@@ -1,0 +1,34 @@
+{
+        "data_flow_id": "103",
+        "data_flow_group": "Maximo_Group1",
+        "source_system": "Maximo",
+        "source_format": "cloudFiles",
+        "source_details": {
+            "source_database": "Oracle",
+            "source_table": "a_locations",
+            "source_path_dev": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/A_LOCATIONS"
+        },
+		"bronze_database_dev": "edp_bronze_dev.maximo",
+        "bronze_table": "a_locations",
+        "bronze_reader_options": {
+            "cloudFiles.format": "parquet",
+			"cloudFiles.inferColumnTypes": "true",
+			"cloudFiles.rescuedDataColumn": "_rescued_data",
+            "header": "true"
+        },
+        "bronze_table_path_dev": "ignore",
+        "silver_database_dev": "N/A",  
+        "silver_table": "N/A",
+        "silver_cdc_apply_changes": {
+            "keys": [
+                "N/A"
+            ],
+            "sequence_by": "N/A",
+            "scd_type": "2",
+            "except_column_list": [
+                "N/A"
+            ]
+        },
+        "silver_table_path_dev": "Ignore",
+        "silver_transformation_json_dev": "/Workspace/EDP/silver/ods/maximo/files/src/silvertransforms_maximo.json"
+}

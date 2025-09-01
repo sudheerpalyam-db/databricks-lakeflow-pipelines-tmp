@@ -1,0 +1,42 @@
+{
+    "dataFlowType": "standard",
+    "mode": "stream",
+    "targetFormat": "delta",
+    "sourceDetails": {
+        "database": "Oracle",
+        "table": "contractline",
+        "path": "s3://s3-staging-maximo-dev-apse2-058264204922/internal/MAXIMO/CONTRACTLINE",
+        "readerOptions": {
+            "cloudFiles.format": "parquet",
+            "cloudFiles.inferColumnTypes": "true",
+            "cloudFiles.rescuedDataColumn": "_rescued_data",
+            "header": "true"
+        }
+    },
+    "targetDetails": {
+        "table": "contractline",
+        "path": "Ignore",
+        "tableProperties": {
+            "delta.enableChangeDataFeed": "true"
+        },
+        "schemaPath": "contractline_schema.json"
+    },
+    "dataFlowId": "maximo_contractline",
+    "dataFlowGroup": "silver_maximo",
+    "sourceSystem": "maximo",
+    "sourceType": "cloudFiles",
+    "cdcApplyChanges": {
+        "keys": [
+            "CONTRACTNUM",
+            "REVISIONNUM",
+            "ORGID",
+            "CONTRACTLINENUM"
+        ],
+        "sequence_by": "DMS_CDC_TIMESTAMP",
+        "scd_type": "2",
+        "except_column_list": [
+            "DMS_CDC_TIMESTAMP"
+        ]
+    },
+    "sourceViewName": "v_contractline"
+}

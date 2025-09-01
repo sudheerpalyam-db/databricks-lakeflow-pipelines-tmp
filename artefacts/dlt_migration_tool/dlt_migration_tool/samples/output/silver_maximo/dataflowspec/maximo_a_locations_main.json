@@ -1,0 +1,31 @@
+{
+  "dataFlowId": "maximo_a_locations",
+  "dataFlowGroup": "silver_maximo",
+  "dataFlowType": "standard",
+  "sourceSystem": "maximo",
+  "sourceType": "delta",
+  "sourceViewName": "v_a_locations",
+  "sourceDetails": {
+    "cdfEnabled": true,
+    "database": "edp_bronze_dev.maximo_lakeflow",
+    "table": "a_locations"
+  },
+  "mode": "stream",
+  "targetFormat": "delta",
+  "targetDetails": {
+    "table": "a_locations",
+    "tableProperties": {
+      "delta.enableChangeDataFeed": "true"
+    },
+    "schemaPath": "maximo_a_locations_schema.json"
+  },
+  "cdcSettings": {
+    "keys": [
+      "N/A"
+    ],
+    "scd_type": "2",
+    "except_column_list": [
+      "N/A"
+    ]
+  }
+}
